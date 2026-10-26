@@ -25,6 +25,9 @@
         const ctx = canvas.getContext("2d");
         const gridSize = 20;
         const tileCount = canvas.width / gridSize;
+        function generateFood(tiles) {
+                        return Math.floor(Math.random() * tiles);
+                        }
 
         // ===== INITIAL STATE =====
         let gameRunning;
@@ -37,6 +40,7 @@
         let food = { x: 15, y: 15 };
         let score = 0;
         // ===== DRAWING =====
+        
         const drawGame = () => {
             ctx.clearRect(0, 0,
                 canvas.width, canvas.height);
@@ -75,20 +79,65 @@
         // Step 5: Improvements
         //
         // ===================================
-        let gameSpeed = 100; // milliseconds
+        let gameSpeed = 120; // milliseconds
         let direction = { x: 1, y: 0 };
         let nextDirection = {x:1, y:0};
+        let scoreTag = document.getElementById('info');
+        function hasHitWall(head) {
+            return (
+                head.x < 0 ||
+                head.x >= tileCount ||
+                head.y < 0 ||
+                head.y >= tileCount
+            );
+        }
+
+       function hitsSelf(head) {
+    return snake.some(segment => 
+    
+        segment.x === head.x && segment.y === head.y)}
+        
+        
+
         function gameStep() {
-            direction = nextDirection
+            direction = nextDirection;
             //Move the snake
             const newHead = {
                 x: snake[0].x + direction.x,
                 y: snake[0].y + direction.y
             }
-            snake.unshift(newHead);
+            
+            function eatFood(){
+                let val = false
+                if((newHead.x === food.x) &&(newHead.y ===food.y) ){
+                    score +=1;
+                food.x= generateFood(tileCount);
+                food.y= generateFood(tileCount);
+                val = true;
+                } 
+                return val;
+            }
+
+            if (hasHitWall(newHead) || hitsSelf(newHead)) {
+                clearInterval(gameInterval);
+                scoreTag.textContent = `Game over! your score was ${score}`;
+                return;
+            }
+
+            if (eatFood() === true){
+                snake.unshift(newHead);
+            }
+            else{
             snake.pop();
+            snake.unshift(newHead)
+            }
+            scoreTag.textContent = `Score: ${score}`
             drawGame();
+
+            
         }
+            
+
        let  gameInterval = setInterval(gameStep, gameSpeed);
 
     window.addEventListener('keydown',function(event){
@@ -125,8 +174,6 @@
             }
     }
     })
-
-
     </script>
 
 </body>
