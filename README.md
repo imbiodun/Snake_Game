@@ -217,4 +217,6 @@ A screenshot is not required for the game to run. If you want to add one later, 
 
 ```markdown
 ![Snake Game screenshot](./images/snake-game.png)
+![Game Over Screenshot](./images/game-over.png)
+![Game Paused Screenshot](./images/game-paused.png)
 ```
