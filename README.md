@@ -211,9 +211,7 @@ To check for whitespace errors in the Git diff:
 git diff --check
 ```
 
-## Adding a screenshot
-
-A screenshot is not required for the game to run. If you want to add one later, place it in an `images` folder and add it near the top of this README:
+## Screenshots of the Game's UI
 
 
 ![Snake Game screenshot](./images/snake-game.png)
